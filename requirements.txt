@@ -5,3 +5,7 @@ dbt-core
 requests
 streamlit
 plotly
+dbt-duckdb
+dbt-duckdb==1.9.1
+anthropic
+python-dotenv
