@@ -270,3 +270,111 @@ UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 
 18:35:03  Completed successfully
 18:35:03  
 18:35:03  Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+✅ Database initialized
+
+🏂 Snow Conditions Report — 2026-03-05 13:36
+
+--------------------------------------------------
+
+📍 Stowe, VT
+   Temp:       35.6°F
+   Wind:       41.4 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Killington, VT
+   Temp:       35.6°F
+   Wind:       29.0 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Loon Mountain, NH
+   Temp:       44.6°F
+   Wind:       41.4 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Sugarloaf, ME
+   Temp:       30.2°F
+   Wind:       37.3 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Sunday River, ME
+   Temp:       21.2°F
+   Wind:       49.7 mph
+   Conditions: Cloudy
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Wachusett, MA
+   Temp:       39.2°F
+   Wind:       33.2 mph
+   Conditions: Cloudy
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+18:36:33  Running with dbt=1.11.7
+18:36:34  Registered adapter: duckdb=1.9.1
+18:36:34  Found 3 models, 1 source, 456 macros
+18:36:34  
+18:36:34  Concurrency: 1 threads (target='dev')
+18:36:34  
+18:36:34  1 of 3 START sql table model main.freeze_thaw .................................. [RUN]
+18:36:34  1 of 3 OK created sql table model main.freeze_thaw ............................. [OK in 0.10s]
+18:36:34  2 of 3 START sql table model main.rolling_snowfall ............................. [RUN]
+18:36:34  2 of 3 OK created sql table model main.rolling_snowfall ........................ [OK in 0.11s]
+18:36:34  3 of 3 START sql table model main.features ..................................... [RUN]
+18:36:34  3 of 3 OK created sql table model main.features ................................ [OK in 0.04s]
+18:36:34  
+18:36:34  Finished running 3 table models in 0 hours 0 minutes and 0.40 seconds (0.40s).
+18:36:34  
+18:36:34  Completed successfully
+18:36:34  
+18:36:34  Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+✅ Database initialized
+
+🏂 Snow Conditions Report — 2026-03-05 13:55
+
+--------------------------------------------------
+
+📍 Stowe, VT
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KSFM/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Killington, VT
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KRUT/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Loon Mountain, NH
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KLCI/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Sugarloaf, ME
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KBHB/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Sunday River, ME
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KBGR/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Wachusett, MA
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KORH/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+18:55:44  Running with dbt=1.11.7
+18:55:45  Registered adapter: duckdb=1.9.1
+18:55:51  Found 3 models, 1 source, 456 macros
+18:55:51  
+18:55:51  Concurrency: 1 threads (target='dev')
+18:55:51  
+18:55:56  1 of 3 START sql table model main.freeze_thaw .................................. [RUN]
+18:55:56  1 of 3 OK created sql table model main.freeze_thaw ............................. [OK in 0.25s]
+18:55:56  2 of 3 START sql table model main.rolling_snowfall ............................. [RUN]
+18:55:56  2 of 3 OK created sql table model main.rolling_snowfall ........................ [OK in 0.05s]
+18:55:56  3 of 3 START sql table model main.features ..................................... [RUN]
+18:55:56  3 of 3 OK created sql table model main.features ................................ [OK in 0.03s]
+18:55:56  
+18:55:56  Finished running 3 table models in 0 hours 0 minutes and 5.10 seconds (5.10s).
+18:55:56  
+18:55:56  Completed successfully
+18:55:56  
+18:55:56  Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+The system cannot find the path specified.
+The system cannot find the path specified.
