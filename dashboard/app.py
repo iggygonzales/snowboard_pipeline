@@ -5,10 +5,12 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+
 import anthropic
 from dotenv import load_dotenv
-
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
+print("ENV FILE PATH:", os.path.join(os.path.dirname(__file__), '..', '.env'))
+print("API KEY:", os.getenv("ANTHROPIC_API_KEY"))
 
 from storage.db import get_connection
 from scoring.scorer import calculate_ride_score, grade
