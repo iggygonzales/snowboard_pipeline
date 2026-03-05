@@ -1,0 +1,382 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\ingestion\noaa_fetcher.py", line 75, in <module>
+    run()
+    ~~~^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\ingestion\noaa_fetcher.py", line 57, in run
+    initialize_db()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\storage\db.py", line 26, in initialize_db
+    print("\u2705 Database initialized")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\migue\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Scripts\dbt.exe\__main__.py", line 2, in <module>
+    from dbt.cli.main import cli
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt\cli\__init__.py", line 1, in <module>
+    from .main import cli as dbt_cli  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt\cli\main.py", line 11, in <module>
+    from dbt.adapters.factory import register_adapter
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt\adapters\factory.py", line 9, in <module>
+    from dbt_common.events.functions import fire_event
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\events\__init__.py", line 2, in <module>
+    from dbt_common.events.event_manager_client import get_event_manager
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\events\event_manager_client.py", line 5, in <module>
+    from dbt_common.events.event_manager import IEventManager, EventManager
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\events\event_manager.py", line 6, in <module>
+    from dbt_common.events.logger import LoggerConfig, _Logger, _TextLogger, _JsonLogger, LineFormat
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\events\logger.py", line 14, in <module>
+    from dbt_common.utils.encoding import ForgivingJSONEncoder
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\utils\__init__.py", line 9, in <module>
+    from dbt_common.utils.dict import (
+    ...<6 lines>...
+    )
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\utils\dict.py", line 5, in <module>
+    from dbt_common.exceptions import DbtConfigError, RecursionError
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\exceptions\__init__.py", line 1, in <module>
+    from dbt_common.exceptions.base import *  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\exceptions\base.py", line 6, in <module>
+    from dbt_common.dataclass_schema import ValidationError
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\dataclass_schema.py", line 15, in <module>
+    from mashumaro.jsonschema import build_json_schema
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\jsonschema\__init__.py", line 1, in <module>
+    from .builder import JSONSchemaBuilder, build_json_schema
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\jsonschema\builder.py", line 5, in <module>
+    from mashumaro.jsonschema.models import Context, JSONSchema
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\jsonschema\models.py", line 178, in <module>
+    class JSONObjectSchema(JSONSchema):
+        type: JSONSchemaInstanceType = JSONSchemaInstanceType.OBJECT
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\mixins\dict.py", line 25, in __init_subclass__
+    compile_mixin_unpacker(cls, **builder_params["unpacker"])
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\mixin.py", line 49, in compile_mixin_unpacker
+    builder.add_unpack_method()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\code\builder.py", line 586, in add_unpack_method
+    self._add_unpack_method_lines(method_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\code\builder.py", line 491, in _add_unpack_method_lines
+    ).build(
+      ~~~~~^
+        fname=fname,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        alias=alias,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\code\builder.py", line 1332, in build
+    unpacked_value = UnpackerRegistry.get(
+        ValueSpec(
+    ...<8 lines>...
+        )
+    )
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\types\common.py", line 241, in get
+    raise UnserializableField(
+        spec.field_ctx.name, spec.type, spec.builder.cls
+    )
+mashumaro.exceptions.UnserializableField: Field "schema" of type Optional[str] in JSONObjectSchema is not serializable
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\ingestion\noaa_fetcher.py", line 75, in <module>
+    run()
+    ~~~^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\ingestion\noaa_fetcher.py", line 57, in run
+    initialize_db()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\storage\db.py", line 26, in initialize_db
+    print("\u2705 Database initialized")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\migue\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Scripts\dbt.exe\__main__.py", line 2, in <module>
+    from dbt.cli.main import cli
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt\cli\__init__.py", line 1, in <module>
+    from .main import cli as dbt_cli  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt\cli\main.py", line 11, in <module>
+    from dbt.adapters.factory import register_adapter
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt\adapters\factory.py", line 9, in <module>
+    from dbt_common.events.functions import fire_event
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\events\__init__.py", line 2, in <module>
+    from dbt_common.events.event_manager_client import get_event_manager
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\events\event_manager_client.py", line 5, in <module>
+    from dbt_common.events.event_manager import IEventManager, EventManager
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\events\event_manager.py", line 6, in <module>
+    from dbt_common.events.logger import LoggerConfig, _Logger, _TextLogger, _JsonLogger, LineFormat
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\events\logger.py", line 14, in <module>
+    from dbt_common.utils.encoding import ForgivingJSONEncoder
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\utils\__init__.py", line 9, in <module>
+    from dbt_common.utils.dict import (
+    ...<6 lines>...
+    )
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\utils\dict.py", line 5, in <module>
+    from dbt_common.exceptions import DbtConfigError, RecursionError
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\exceptions\__init__.py", line 1, in <module>
+    from dbt_common.exceptions.base import *  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\exceptions\base.py", line 6, in <module>
+    from dbt_common.dataclass_schema import ValidationError
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\dbt_common\dataclass_schema.py", line 15, in <module>
+    from mashumaro.jsonschema import build_json_schema
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\jsonschema\__init__.py", line 1, in <module>
+    from .builder import JSONSchemaBuilder, build_json_schema
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\jsonschema\builder.py", line 5, in <module>
+    from mashumaro.jsonschema.models import Context, JSONSchema
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\jsonschema\models.py", line 178, in <module>
+    class JSONObjectSchema(JSONSchema):
+        type: JSONSchemaInstanceType = JSONSchemaInstanceType.OBJECT
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\mixins\dict.py", line 25, in __init_subclass__
+    compile_mixin_unpacker(cls, **builder_params["unpacker"])
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\mixin.py", line 49, in compile_mixin_unpacker
+    builder.add_unpack_method()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\code\builder.py", line 586, in add_unpack_method
+    self._add_unpack_method_lines(method_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\code\builder.py", line 491, in _add_unpack_method_lines
+    ).build(
+      ~~~~~^
+        fname=fname,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        alias=alias,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\code\builder.py", line 1332, in build
+    unpacked_value = UnpackerRegistry.get(
+        ValueSpec(
+    ...<8 lines>...
+        )
+    )
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\venv\Lib\site-packages\mashumaro\core\meta\types\common.py", line 241, in get
+    raise UnserializableField(
+        spec.field_ctx.name, spec.type, spec.builder.cls
+    )
+mashumaro.exceptions.UnserializableField: Field "schema" of type Optional[str] in JSONObjectSchema is not serializable
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\ingestion\noaa_fetcher.py", line 75, in <module>
+    run()
+    ~~~^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\ingestion\noaa_fetcher.py", line 57, in run
+    initialize_db()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\storage\db.py", line 26, in initialize_db
+    print("\u2705 Database initialized")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\migue\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+18:33:13  Running with dbt=1.11.7
+18:33:13  Registered adapter: duckdb=1.9.1
+18:33:13  Unable to do partial parsing because a project config has changed
+18:33:13  Found 3 models, 1 source, 456 macros
+18:33:13  
+18:33:13  Concurrency: 1 threads (target='dev')
+18:33:13  
+18:33:14  1 of 3 START sql table model main.freeze_thaw .................................. [RUN]
+18:33:14  1 of 3 OK created sql table model main.freeze_thaw ............................. [OK in 0.11s]
+18:33:14  2 of 3 START sql table model main.rolling_snowfall ............................. [RUN]
+18:33:14  2 of 3 OK created sql table model main.rolling_snowfall ........................ [OK in 0.14s]
+18:33:14  3 of 3 START sql table model main.features ..................................... [RUN]
+18:33:14  3 of 3 OK created sql table model main.features ................................ [OK in 0.14s]
+18:33:14  
+18:33:14  Finished running 3 table models in 0 hours 0 minutes and 0.53 seconds (0.53s).
+18:33:14  
+18:33:14  Completed successfully
+18:33:14  
+18:33:14  Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+✅ Database initialized
+
+🏂 Snow Conditions Report — 2026-03-05 13:34
+
+--------------------------------------------------
+
+📍 Stowe, VT
+   Temp:       35.6°F
+   Wind:       41.4 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Killington, VT
+   Temp:       35.6°F
+   Wind:       29.0 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Loon Mountain, NH
+   Temp:       44.6°F
+   Wind:       41.4 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Sugarloaf, ME
+   Temp:       30.2°F
+   Wind:       37.3 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Sunday River, ME
+   Temp:       21.2°F
+   Wind:       49.7 mph
+   Conditions: Cloudy
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Wachusett, MA
+   Temp:       39.2°F
+   Wind:       33.2 mph
+   Conditions: Cloudy
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+18:35:02  Running with dbt=1.11.7
+18:35:02  Registered adapter: duckdb=1.9.1
+18:35:02  Found 3 models, 1 source, 456 macros
+18:35:02  
+18:35:02  Concurrency: 1 threads (target='dev')
+18:35:02  
+18:35:02  1 of 3 START sql table model main.freeze_thaw .................................. [RUN]
+18:35:03  1 of 3 OK created sql table model main.freeze_thaw ............................. [OK in 0.10s]
+18:35:03  2 of 3 START sql table model main.rolling_snowfall ............................. [RUN]
+18:35:03  2 of 3 OK created sql table model main.rolling_snowfall ........................ [OK in 0.04s]
+18:35:03  3 of 3 START sql table model main.features ..................................... [RUN]
+18:35:03  3 of 3 OK created sql table model main.features ................................ [OK in 0.05s]
+18:35:03  
+18:35:03  Finished running 3 table models in 0 hours 0 minutes and 0.34 seconds (0.34s).
+18:35:03  
+18:35:03  Completed successfully
+18:35:03  
+18:35:03  Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+✅ Database initialized
+
+🏂 Snow Conditions Report — 2026-03-05 13:36
+
+--------------------------------------------------
+
+📍 Stowe, VT
+   Temp:       35.6°F
+   Wind:       41.4 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Killington, VT
+   Temp:       35.6°F
+   Wind:       29.0 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Loon Mountain, NH
+   Temp:       44.6°F
+   Wind:       41.4 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Sugarloaf, ME
+   Temp:       30.2°F
+   Wind:       37.3 mph
+   Conditions: Clear
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Sunday River, ME
+   Temp:       21.2°F
+   Wind:       49.7 mph
+   Conditions: Cloudy
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+
+📍 Wachusett, MA
+   Temp:       39.2°F
+   Wind:       33.2 mph
+   Conditions: Cloudy
+   Updated:    2026-03-05T18:20:00+00:00
+   ✅ Saved to database
+18:36:33  Running with dbt=1.11.7
+18:36:34  Registered adapter: duckdb=1.9.1
+18:36:34  Found 3 models, 1 source, 456 macros
+18:36:34  
+18:36:34  Concurrency: 1 threads (target='dev')
+18:36:34  
+18:36:34  1 of 3 START sql table model main.freeze_thaw .................................. [RUN]
+18:36:34  1 of 3 OK created sql table model main.freeze_thaw ............................. [OK in 0.10s]
+18:36:34  2 of 3 START sql table model main.rolling_snowfall ............................. [RUN]
+18:36:34  2 of 3 OK created sql table model main.rolling_snowfall ........................ [OK in 0.11s]
+18:36:34  3 of 3 START sql table model main.features ..................................... [RUN]
+18:36:34  3 of 3 OK created sql table model main.features ................................ [OK in 0.04s]
+18:36:34  
+18:36:34  Finished running 3 table models in 0 hours 0 minutes and 0.40 seconds (0.40s).
+18:36:34  
+18:36:34  Completed successfully
+18:36:34  
+18:36:34  Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+✅ Database initialized
+
+🏂 Snow Conditions Report — 2026-03-05 13:55
+
+--------------------------------------------------
+
+📍 Stowe, VT
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KSFM/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Killington, VT
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KRUT/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Loon Mountain, NH
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KLCI/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Sugarloaf, ME
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KBHB/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Sunday River, ME
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KBGR/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+
+📍 Wachusett, MA
+   ❌ Error: HTTPSConnectionPool(host='api.weather.gov', port=443): Max retries exceeded with url: /stations/KORH/observations/latest (Caused by NameResolutionError("HTTPSConnection(host='api.weather.gov', port=443): Failed to resolve 'api.weather.gov' ([Errno 11001] getaddrinfo failed)"))
+18:55:44  Running with dbt=1.11.7
+18:55:45  Registered adapter: duckdb=1.9.1
+18:55:51  Found 3 models, 1 source, 456 macros
+18:55:51  
+18:55:51  Concurrency: 1 threads (target='dev')
+18:55:51  
+18:55:56  1 of 3 START sql table model main.freeze_thaw .................................. [RUN]
+18:55:56  1 of 3 OK created sql table model main.freeze_thaw ............................. [OK in 0.25s]
+18:55:56  2 of 3 START sql table model main.rolling_snowfall ............................. [RUN]
+18:55:56  2 of 3 OK created sql table model main.rolling_snowfall ........................ [OK in 0.05s]
+18:55:56  3 of 3 START sql table model main.features ..................................... [RUN]
+18:55:56  3 of 3 OK created sql table model main.features ................................ [OK in 0.03s]
+18:55:56  
+18:55:56  Finished running 3 table models in 0 hours 0 minutes and 5.10 seconds (5.10s).
+18:55:56  
+18:55:56  Completed successfully
+18:55:56  
+18:55:56  Done. PASS=3 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=3
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
