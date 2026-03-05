@@ -2,3 +2,6 @@ requests
 pandas
 duckdb
 dbt-core
+requests
+streamlit
+plotly

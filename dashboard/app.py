@@ -86,6 +86,7 @@ st.divider()
 
 # --- Historical chart ---
 st.subheader("Score History")
+import plotly.express as px
 
 @st.cache_data(ttl=300)
 def load_history():
@@ -111,12 +112,24 @@ history["score"] = history.apply(
     ), axis=1
 )
 
-chart_data = history.pivot_table(
-    index="fetched_at",
-    columns="resort",
-    values="score"
+fig = px.line(
+    history,
+    x="fetched_at",
+    y="score",
+    color="resort",
+    markers=True,
+    title="Ride Quality Score Over Time",
+    labels={"fetched_at": "Time", "score": "Ride Score", "resort": "Resort"},
+    range_y=[0, 100]
 )
 
-st.line_chart(chart_data)
+fig.update_traces(marker=dict(size=6))
+fig.update_layout(
+    hovermode="x unified",
+    legend=dict(orientation="h", yanchor="bottom", y=-0.3),
+    height=450
+)
+
+st.plotly_chart(fig, width='stretch')
 
 st.caption("Data refreshes every 5 minutes. Run the fetcher to update conditions.")
