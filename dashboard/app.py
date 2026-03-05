@@ -17,7 +17,7 @@ st.title("🏂 New England Snow Conditions")
 st.caption("Live ride quality scores powered by NOAA weather data")
 
 # --- Load latest conditions per resort ---
-@st.cache_data(ttl=300)  # refresh every 5 minutes
+@st.cache_data(ttl=300)
 def load_conditions():
     con = get_connection()
     df = con.execute("""
@@ -28,9 +28,10 @@ def load_conditions():
             wind_speed_mph,
             snowfall_in,
             conditions,
-            timestamp,
-            fetched_at
-        FROM conditions
+            rolling_72hr_snowfall,
+            freeze_thaw_flag,
+            fetched_at AS timestamp
+        FROM features
         ORDER BY resort, fetched_at DESC
     """).df()
     con.close()
@@ -79,6 +80,11 @@ for i, (_, row) in enumerate(df.iterrows()):
             m1.metric("Temperature", f"{round(row['temp_f'], 1)}°F")
             m2.metric("Wind", f"{round(row['wind_speed_mph'], 1)} mph")
             m3.metric("Score", f"{row['score']}/100")
+            
+            # ice warning
+            if row.get("freeze_thaw_flag"):
+                st.warning("⚠️ Freeze/thaw detected — expect icy conditions today")
+            
             st.caption(f"🌤 {row['conditions']}")
             st.caption(f"Last updated: {row['timestamp']}")
 

@@ -1,33 +1,33 @@
 from storage.db import get_connection
 
-def calculate_ride_score(temp_f, wind_speed_mph, conditions, snowfall_in):
+def calculate_ride_score(temp_f, wind_speed_mph, conditions, snowfall_in, rolling_72hr_snowfall=0, freeze_thaw_flag=0):
     score = 50  # baseline
 
     # --- Temperature score (ideal: 20-32°F) ---
     if temp_f is None:
         temp_score = 0
     elif 20 <= temp_f <= 32:
-        temp_score = 25  # perfect range
+        temp_score = 25
     elif 10 <= temp_f < 20:
-        temp_score = 15  # cold but rideable
+        temp_score = 15
     elif 32 < temp_f <= 40:
-        temp_score = 10  # getting slushy
+        temp_score = 10
     elif temp_f > 40:
-        temp_score = -10  # slushy/icy risk
+        temp_score = -10
     else:
-        temp_score = 5   # very cold
+        temp_score = 5
 
-    # --- Wind penalty (high wind = bad time) ---
+    # --- Wind penalty ---
     if wind_speed_mph is None:
         wind_score = 0
     elif wind_speed_mph <= 10:
-        wind_score = 15  # calm, great
+        wind_score = 15
     elif wind_speed_mph <= 20:
-        wind_score = 0    # was 5, neutral not a bonus
+        wind_score = 0
     elif wind_speed_mph <= 35:
-        wind_score = -15  # was -10, more punishing
+        wind_score = -15
     else:
-        wind_score = -30  # was -25, likely lift closures
+        wind_score = -30
 
     # --- Conditions bonus ---
     if conditions is None:
@@ -35,27 +35,31 @@ def calculate_ride_score(temp_f, wind_speed_mph, conditions, snowfall_in):
     else:
         conditions_lower = conditions.lower()
         if "snow" in conditions_lower:
-            conditions_score = 15  # fresh snow is great
+            conditions_score = 15
         elif "clear" in conditions_lower or "sunny" in conditions_lower:
-            conditions_score = 10  # bluebird day
+            conditions_score = 10
         elif "cloud" in conditions_lower:
-            conditions_score = 5   # overcast but fine
+            conditions_score = 5
         elif "fog" in conditions_lower or "mist" in conditions_lower:
-            conditions_score = -5  # low visibility
+            conditions_score = -5
         elif "rain" in conditions_lower or "drizzle" in conditions_lower:
-            conditions_score = -20  # worst case
+            conditions_score = -20
         else:
             conditions_score = 0
 
-    # --- Snowfall bonus ---
-    if snowfall_in and snowfall_in > 0:
-        snow_bonus = min(snowfall_in * 10, 15)  # cap at 15 pts
+    # --- Rolling 72hr snowfall bonus (fresh snow!) ---
+    if rolling_72hr_snowfall and rolling_72hr_snowfall > 0:
+        snow_bonus = min(rolling_72hr_snowfall * 5, 20)  # cap at 20pts
+    elif snowfall_in and snowfall_in > 0:
+        snow_bonus = min(snowfall_in * 10, 10)
     else:
         snow_bonus = 0
 
-    # --- Final score ---
-    total = score + temp_score + wind_score + conditions_score + snow_bonus
-    return max(0, min(100, total))  # clamp between 0-100
+    # --- Freeze/thaw penalty (icy conditions) ---
+    ice_penalty = -15 if freeze_thaw_flag else 0
+
+    total = score + temp_score + wind_score + conditions_score + snow_bonus + ice_penalty
+    return max(0, min(100, total))
 
 
 def grade(score):
@@ -74,7 +78,7 @@ def grade(score):
 def run():
     con = get_connection()
 
-    # get latest reading per resort
+    # read from features table instead of raw conditions
     results = con.execute("""
         SELECT DISTINCT ON (resort)
             resort,
@@ -83,24 +87,29 @@ def run():
             wind_speed_mph,
             snowfall_in,
             conditions,
-            timestamp
-        FROM conditions
+            rolling_72hr_snowfall,
+            freeze_thaw_flag,
+            fetched_at
+        FROM features
         ORDER BY resort, fetched_at DESC
     """).fetchall()
 
     con.close()
 
     print("\n🏂 Ride Quality Scores\n")
-    print(f"{'Resort':<20} {'Temp':>6} {'Wind':>8} {'Score':>7} {'Rating'}")
-    print("-" * 65)
+    print(f"{'Resort':<20} {'Temp':>6} {'Wind':>8} {'72hr Snow':>10} {'Ice Risk':>9} {'Score':>7} {'Rating'}")
+    print("-" * 85)
 
     for row in results:
-        resort, state, temp_f, wind_mph, snowfall, conds, ts = row
-        score = calculate_ride_score(temp_f, wind_mph, conds, snowfall)
+        resort, state, temp_f, wind_mph, snowfall, conds, rolling_snow, freeze_thaw, ts = row
+        score = calculate_ride_score(temp_f, wind_mph, conds, snowfall, rolling_snow, freeze_thaw)
         rating = grade(score)
+        ice = "⚠️Yes" if freeze_thaw else "No"
         temp_str = f"{round(temp_f, 1)}°F"
         wind_str = f"{round(wind_mph, 1)}mph"
-        print(f"{resort + ', ' + state:<20} {temp_str:>8} {wind_str:>10} {score:>7} {rating}")
+        snow_str = f"{round(rolling_snow or 0, 2)}in"
+        print(f"{resort + ', ' + state:<20} {temp_str:>8} {wind_str:>8} {snow_str:>10} {ice:>9} {score:>7} {rating}")
+
 
 if __name__ == "__main__":
     run()

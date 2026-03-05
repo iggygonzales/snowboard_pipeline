@@ -1,0 +1,43 @@
+[0m12:36:06.344231 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BFBE1D0DD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BFBE23C450>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BFBDE83F10>]}
+
+
+============================== 12:36:06.357235 | cffb1cab-392a-4ecb-8d4a-4c88916f29a6 ==============================
+[0m12:36:06.357235 [info ] [MainThread]: Running with dbt=1.11.7
+[0m12:36:06.358231 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\migue\\.dbt', 'invocation_command': 'dbt init snow_transforms', 'indirect_selection': 'eager', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m12:36:06.370233 [info ] [MainThread]: Creating dbt configuration folder at C:\Users\migue\.dbt
+[0m12:36:06.372233 [debug] [MainThread]: Starter project path: C:\Users\migue\OneDrive\Documents\NEU Projects\snowboard_pipeline\transforms\venv\Lib\site-packages\dbt\include\starter_project
+[0m12:36:06.407238 [info ] [MainThread]: 
+Your new dbt project "snow_transforms" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m12:36:06.407238 [info ] [MainThread]: Setting up your profile.
+[0m12:36:06.408238 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No adapters available. Learn how to install an adapter by going to https://docs.getdbt.com/docs/connect-adapters#install-using-the-cli
+[0m12:36:06.409236 [debug] [MainThread]: Command `dbt init` failed at 12:36:06.409236 after 0.11 seconds
+[0m12:36:06.410237 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BFBE1D3610>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BFBE1D2510>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BFBE1D0850>]}
+[0m12:36:06.410237 [debug] [MainThread]: Flushing usage events
+[0m12:36:06.842303 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m12:37:03.099251 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002013FE173D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020142709090>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020143621350>]}
+
+
+============================== 12:37:03.101251 | 66b90ae5-fd13-469d-a85b-eeec7d7ebb2f ==============================
+[0m12:37:03.101251 [info ] [MainThread]: Running with dbt=1.11.7
+[0m12:37:03.102250 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': 'C:\\Users\\migue\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'use_colors': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt init snow_transforms', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m12:37:03.115256 [info ] [MainThread]: A project called snow_transforms already exists here.
+[0m12:37:03.116258 [debug] [MainThread]: Command `dbt init` succeeded at 12:37:03.116258 after 0.06 seconds
+[0m12:37:03.116258 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000201432DC110>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002013CB8B3D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020142760290>]}
+[0m12:37:03.117255 [debug] [MainThread]: Flushing usage events
+[0m12:37:03.458170 [debug] [MainThread]: An error was encountered while trying to flush usage events
