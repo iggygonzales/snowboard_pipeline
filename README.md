@@ -6,7 +6,7 @@ A real-time AI-powered data pipeline that fetches, stores, transforms, and score
 
 ## Overview
 
-This project ingests hourly weather data from the NOAA API, stores it in a DuckDB database, runs dbt transformations to engineer features, applies a custom ride quality scoring model, and surfaces everything in a Streamlit dashboard with an AI chatbot layer — all running 24/7 on AWS EC2.
+This project ingests hourly weather data from the NOAA API, stores it in a DuckDB database, runs dbt transformations to engineer features, applies a custom ride quality scoring model, and surfaces everything in a Streamlit dashboard with an AI chatbot layer — all running 24/7 on AWS EC2 with Prefect orchestration.
 
 ## Resorts Tracked
 
@@ -31,7 +31,7 @@ NOAA API → Python Ingestion → DuckDB (raw)
                                     ↓
                      Streamlit Dashboard + Claude AI Chatbot
                                     ↓
-                            AWS EC2 (Docker)
+                         AWS EC2 (Docker + Prefect)
 ```
 
 ## Features
@@ -41,6 +41,7 @@ NOAA API → Python Ingestion → DuckDB (raw)
 - Resort detail cards with temperature, wind, and conditions
 - Freeze/thaw ice risk warnings
 - Score history chart showing trends over time (Plotly)
+- Timestamps displayed in EST
 
 **AI Snow Bot**
 - Powered by Claude Sonnet via the Anthropic API
@@ -82,10 +83,10 @@ Each resort receives a ride quality score from 0–100 based on:
 | Storage | DuckDB |
 | Transformation | dbt (dbt-duckdb) |
 | Scoring | Python (weighted scoring function) |
+| Orchestration | Prefect (hourly schedule, retries, monitoring) |
 | Dashboard | Streamlit + Plotly |
 | AI Chatbot | Claude Sonnet (Anthropic API) |
 | Containerization | Docker |
-| Orchestration | Cron (AWS EC2) |
 | Cloud | AWS EC2 + Elastic IP |
 
 ## Project Structure
@@ -101,6 +102,8 @@ snowboard-pipeline/
 │   └── scorer.py               # Ride quality scoring model
 ├── dashboard/
 │   └── app.py                  # Streamlit dashboard + AI chatbot
+├── orchestration/
+│   └── pipeline_flow.py        # Prefect flow with hourly schedule
 ├── transforms/
 │   └── snow_transforms/        # dbt project
 │       └── models/
@@ -146,7 +149,12 @@ dbt run
 streamlit run dashboard/app.py
 ```
 
-**6. Run with Docker:**
+**6. Run the Prefect flow manually:**
+```bash
+python -m orchestration.pipeline_flow
+```
+
+**7. Run with Docker:**
 ```bash
 docker build -t snowboard-pipeline .
 docker run -p 8501:8501 \
@@ -169,15 +177,25 @@ ssh -i "snowboard-key.pem" ec2-user@52.14.162.178
 bash deploy.sh
 ```
 
-**Cron schedule (runs automatically on EC2):**
+**Prefect orchestration (runs automatically on EC2):**
+- Managed by systemd — starts automatically on EC2 reboot
+- Hourly schedule via Prefect Cloud
+- Automatic retries: 3x on fetch, 2x on dbt
+- Monitor runs at app.prefect.cloud
+
+**Check Prefect service status:**
+```bash
+sudo systemctl status prefect-pipeline
 ```
-0 * * * * python3 -m ingestion.noaa_fetcher    # fetch hourly
-5 * * * * dbt run                               # rebuild features
+
+**Restart Prefect service:**
+```bash
+sudo systemctl restart prefect-pipeline
 ```
 
 ## Roadmap
 
-- [ ] Apache Airflow orchestration to replace cron
+- [ ] NOAA forecast API integration for 7-day predictive scoring
 - [ ] Expand to national resort coverage
 - [ ] Spark processing layer for scale
 - [ ] Resort snow report scraping for deeper condition data
