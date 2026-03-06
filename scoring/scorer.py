@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from storage.db import get_connection
 
 def calculate_ride_score(temp_f, wind_speed_mph, conditions, snowfall_in, rolling_72hr_snowfall=0, freeze_thaw_flag=0):
@@ -104,7 +108,7 @@ def run():
         resort, state, temp_f, wind_mph, snowfall, conds, rolling_snow, freeze_thaw, ts = row
         score = calculate_ride_score(temp_f, wind_mph, conds, snowfall, rolling_snow, freeze_thaw)
         rating = grade(score)
-        ice = "⚠️Yes" if freeze_thaw else "No"
+        ice = "⚠️ Yes" if freeze_thaw else "No"
         temp_str = f"{round(temp_f, 1)}°F"
         wind_str = f"{round(wind_mph, 1)}mph"
         snow_str = f"{round(rolling_snow or 0, 2)}in"
