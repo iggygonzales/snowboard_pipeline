@@ -1,10 +1,12 @@
 # 🏂 New England Snowboard Conditions Pipeline
 
-A real-time data pipeline that fetches, stores, transforms, and scores snowboarding conditions across 6 New England resorts using live NOAA weather data. Deployed on AWS EC2 and accessible at http://52.14.162.178:8501
+A real-time AI-powered data pipeline that fetches, stores, transforms, and scores snowboarding conditions across 6 New England resorts using live NOAA weather data. Features a Claude AI chatbot that gives personalized resort recommendations based on live conditions.
+
+**Live at:** http://52.14.162.178:8501
 
 ## Overview
 
-This project ingests hourly weather data from the NOAA API, stores it in a DuckDB database, runs dbt transformations to engineer features, applies a custom ride quality scoring model, and surfaces everything in a Streamlit dashboard — all running 24/7 on AWS EC2.
+This project ingests hourly weather data from the NOAA API, stores it in a DuckDB database, runs dbt transformations to engineer features, applies a custom ride quality scoring model, and surfaces everything in a Streamlit dashboard with an AI chatbot layer — all running 24/7 on AWS EC2.
 
 ## Resorts Tracked
 
@@ -27,8 +29,24 @@ NOAA API → Python Ingestion → DuckDB (raw)
                                     ↓
                          Scoring Model (Python)
                                     ↓
-                        Streamlit Dashboard (AWS EC2)
+                     Streamlit Dashboard + Claude AI Chatbot
+                                    ↓
+                            AWS EC2 (Docker)
 ```
+
+## Features
+
+**Dashboard**
+- Live resort leaderboard ranked by ride quality score
+- Resort detail cards with temperature, wind, and conditions
+- Freeze/thaw ice risk warnings
+- Score history chart showing trends over time (Plotly)
+
+**AI Snow Bot**
+- Powered by Claude Sonnet via the Anthropic API
+- Reads live conditions data and ride quality scores
+- Gives personalized resort recommendations in natural language
+- Maintains conversation context across multiple questions
 
 ## Scoring Model
 
@@ -40,7 +58,13 @@ Each resort receives a ride quality score from 0–100 based on:
 - **Rolling 72hr snowfall** — fresh snow bonus (capped at 20pts)
 - **Freeze/thaw detection** — 15pt ice risk penalty when temps cross freezing threshold
 
-Scores are graded as Excellent / Good / Decent / Poor / Stay Home. Ice warnings are displayed on the dashboard when freeze/thaw is detected.
+| Score | Rating |
+|---|---|
+| 80–100 | 🟢 Excellent |
+| 65–79 | 🔵 Good |
+| 50–64 | 🟡 Decent |
+| 35–49 | 🟠 Poor |
+| 0–34 | 🔴 Stay Home |
 
 ## dbt Models
 
@@ -59,6 +83,7 @@ Scores are graded as Excellent / Good / Decent / Poor / Stay Home. Ice warnings 
 | Transformation | dbt (dbt-duckdb) |
 | Scoring | Python (weighted scoring function) |
 | Dashboard | Streamlit + Plotly |
+| AI Chatbot | Claude Sonnet (Anthropic API) |
 | Containerization | Docker |
 | Orchestration | Cron (AWS EC2) |
 | Cloud | AWS EC2 + Elastic IP |
@@ -75,7 +100,7 @@ snowboard-pipeline/
 ├── scoring/
 │   └── scorer.py               # Ride quality scoring model
 ├── dashboard/
-│   └── app.py                  # Streamlit dashboard
+│   └── app.py                  # Streamlit dashboard + AI chatbot
 ├── transforms/
 │   └── snow_transforms/        # dbt project
 │       └── models/
@@ -100,31 +125,39 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**2. Run the fetcher:**
+**2. Add your Anthropic API key to `.env`:**
+```
+ANTHROPIC_API_KEY=your-key-here
+```
+
+**3. Run the fetcher:**
 ```bash
 python -m ingestion.noaa_fetcher
 ```
 
-**3. Run dbt transforms:**
+**4. Run dbt transforms:**
 ```bash
 cd transforms/snow_transforms
 dbt run
 ```
 
-**4. Launch the dashboard:**
+**5. Launch the dashboard:**
 ```bash
 streamlit run dashboard/app.py
 ```
 
-**5. Run with Docker:**
+**6. Run with Docker:**
 ```bash
 docker build -t snowboard-pipeline .
-docker run -p 8501:8501 -v $(pwd)/data:/app/data snowboard-pipeline
+docker run -p 8501:8501 \
+  -v $(pwd)/data:/app/data \
+  -e ANTHROPIC_API_KEY=your-key-here \
+  snowboard-pipeline
 ```
 
 ## AWS Deployment
 
-The pipeline runs on an AWS EC2 t2.micro instance (free tier) with an Elastic IP.
+The pipeline runs on an AWS EC2 t2.micro instance (free tier) with an Elastic IP at `52.14.162.178`.
 
 **SSH into EC2:**
 ```bash
@@ -133,7 +166,7 @@ ssh -i "snowboard-key.pem" ec2-user@52.14.162.178
 
 **Deploy latest changes:**
 ```bash
-./deploy.sh
+bash deploy.sh
 ```
 
 **Cron schedule (runs automatically on EC2):**
@@ -144,8 +177,7 @@ ssh -i "snowboard-key.pem" ec2-user@52.14.162.178
 
 ## Roadmap
 
-- [ ] Natural language chatbot interface powered by Claude API
+- [ ] Apache Airflow orchestration to replace cron
 - [ ] Expand to national resort coverage
-- [ ] Airflow orchestration as pipeline complexity grows
 - [ ] Spark processing layer for scale
 - [ ] Resort snow report scraping for deeper condition data
