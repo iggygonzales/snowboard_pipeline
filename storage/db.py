@@ -23,7 +23,7 @@ def initialize_db():
         )
     """)
     con.close()
-    print("✅ Database initialized")
+    print("Database initialized")
 
 if __name__ == "__main__":
     initialize_db()

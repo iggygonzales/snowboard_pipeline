@@ -59,11 +59,11 @@ def save_conditions(resort: dict, conditions: dict):
 
 def run():
     initialize_db()
-    print(f"\n🏂 Snow Conditions Report — {datetime.now().strftime('%Y-%m-%d %H:%M')}\n")
+    print(f"\n Snow Conditions Report — {datetime.now().strftime('%Y-%m-%d %H:%M')}\n")
     print("-" * 50)
     
     for resort in RESORTS:
-        print(f"\n📍 {resort['name']}, {resort['state']}")
+        print(f"\n {resort['name']}, {resort['state']}")
         try:
             conditions = fetch_conditions(resort["noaa_station"])
             save_conditions(resort, conditions)
@@ -71,9 +71,9 @@ def run():
             print(f"   Wind:       {conditions['wind_speed_mph']} mph")
             print(f"   Conditions: {conditions['conditions']}")
             print(f"   Updated:    {conditions['timestamp']}")
-            print(f"   ✅ Saved to database")
+            print(f"   Saved to database")
         except Exception as e:
-            print(f"   ❌ Error: {e}")
+            print(f"    Error: {e}")
 
 if __name__ == "__main__":
     run()
