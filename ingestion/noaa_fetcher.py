@@ -14,10 +14,10 @@ def celsius_to_f(c):
         return None
     return round((c * 9/5) + 32, 1)
 
-def ms_to_mph(ms):
-    if ms is None:
+def kmh_to_mph(kmh):
+    if kmh is None:
         return None
-    return round(ms * 2.237, 1)
+    return round(kmh / 1.609, 1)
 
 def fetch_conditions(station_id: str) -> dict:
     url = BASE_URL.format(station=station_id)
