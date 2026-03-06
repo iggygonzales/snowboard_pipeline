@@ -32,7 +32,7 @@ def fetch_conditions(station_id: str) -> dict:
     return {
         "timestamp": props["timestamp"],
         "temp_f": celsius_to_f(props["temperature"]["value"]),
-        "wind_speed_mph": ms_to_mph(props["windSpeed"]["value"]),
+        "wind_speed_mph": kmh_to_mph(props["windSpeed"]["value"]),
         "snowfall_in": props.get("snowfallSinceLastObservation", {}).get("value"),
         "visibility_m": props["visibility"]["value"],
         "conditions": props["textDescription"],
