@@ -9,11 +9,17 @@ import plotly.express as px
 import anthropic
 from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
-print("ENV FILE PATH:", os.path.join(os.path.dirname(__file__), '..', '.env'))
-print("API KEY:", os.getenv("ANTHROPIC_API_KEY"))
 
 from storage.db import get_connection
 from scoring.scorer import calculate_ride_score, grade
+
+# --- time imports ---
+from datetime import datetime
+import pytz
+
+est = pytz.timezone('US/Eastern')
+now = datetime.now(est).strftime('%B %d, %Y %I:%M %p EST')
+st.caption(f"Last refreshed: {now}")
 
 st.set_page_config(
     page_title="🏂 NE Snow Conditions",
@@ -45,6 +51,9 @@ def load_conditions():
         ORDER BY resort, fetched_at DESC
     """).df()
     con.close()
+    est = pytz.timezone('US/Eastern')
+    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.tz_localize('UTC').dt.tz_convert(est).dt.strftime('%Y-%m-%d %I:%M %p EST')
+
     return df
 
 df = load_conditions()
