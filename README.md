@@ -8,6 +8,13 @@ A real-time AI-powered data pipeline that fetches, stores, transforms, and score
 
 This project ingests hourly weather data from the NOAA API, stores it in a DuckDB database, runs dbt transformations to engineer features, applies a custom ride quality scoring model, and surfaces everything in a Streamlit dashboard with an AI chatbot layer — all running 24/7 on AWS EC2 with Prefect orchestration.
 
+<img width="2397" height="472" alt="snow1" src="https://github.com/user-attachments/assets/a948d816-7efe-49e1-ba88-964e73182837" />
+
+<img width="2171" height="942" alt="snow2" src="https://github.com/user-attachments/assets/ffc93e25-4e71-4bbd-a58c-e2682af7058e" />
+
+<img width="2288" height="620" alt="snow3" src="https://github.com/user-attachments/assets/7deea231-075a-43e9-ad7a-66c766a521de" />
+
+
 ## Resorts Tracked
 
 | Resort | State | NOAA Station |
