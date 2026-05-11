@@ -15,6 +15,10 @@ This project ingests hourly weather data from the NOAA API, stores it in a DuckD
 <img width="2288" height="620" alt="snow3" src="https://github.com/user-attachments/assets/7deea231-075a-43e9-ad7a-66c766a521de" />
 
 
+<img width="560" height="240" alt="Video Project 6" src="https://github.com/user-attachments/assets/f8485eda-dd4c-4c9a-b439-fe11bad5996b" />
+
+
+
 ## Resorts Tracked
 
 | Resort | State | NOAA Station |
