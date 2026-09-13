@@ -22,6 +22,22 @@ def initialize_db():
             fetched_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
+    con.execute("""
+        CREATE TABLE IF NOT EXISTS forecasts (
+            resort              VARCHAR,
+            state               VARCHAR,
+            period_name         VARCHAR,
+            start_time          TIMESTAMP,
+            end_time            TIMESTAMP,
+            is_daytime          BOOLEAN,
+            temp_f              FLOAT,
+            wind_speed          VARCHAR,
+            wind_direction      VARCHAR,
+            short_forecast      VARCHAR,
+            detailed_forecast   VARCHAR,
+            fetched_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
     con.close()
     print("Database initialized")
 

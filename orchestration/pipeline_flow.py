@@ -33,7 +33,7 @@ DBT_DIR = os.path.join(PROJECT_ROOT, "transforms", "snow_transforms")
 def fetch_conditions():
     logger = get_run_logger()
     logger.info("Fetching conditions from NOAA...")
-    
+
     # Run the fetcher as a subprocess so it uses the correct Python environment
     # capture_output=True captures stdout/stderr so we can log them
     result = subprocess.run(
@@ -42,12 +42,12 @@ def fetch_conditions():
         capture_output=True,
         text=True
     )
-    
+
     # If the fetcher exits with a non-zero code, raise an exception
     # This triggers Prefect's retry logic
     if result.returncode != 0:
         raise Exception(f"Fetcher failed: {result.stderr}")
-    
+
     # Log the fetcher output to Prefect Cloud for visibility
     logger.info(result.stdout)
     return "conditions fetched"
@@ -60,7 +60,7 @@ def fetch_conditions():
 def run_dbt():
     logger = get_run_logger()
     logger.info("Running dbt transforms...")
-    
+
     # Run dbt as a subprocess from the dbt project directory
     result = subprocess.run(
         [DBT, "run"],
@@ -68,26 +68,55 @@ def run_dbt():
         capture_output=True,
         text=True
     )
-    
+
     # If dbt exits with a non-zero code, raise an exception
     # This triggers Prefect's retry logic
     if result.returncode != 0:
         raise Exception(f"dbt failed: {result.stderr}")
-    
+
     # Log the dbt output to Prefect Cloud for visibility
     logger.info(result.stdout)
     return "dbt complete"
 
 
+# ---Task 3: Fetch 7-day Forecasts---
+# retries=3 means Prefect will retry up to 3 times if NOAA API is down or flaky
+# retry_delay_seconds=60 means wait 60 seconds between each retry
+# Forecasts are fetched after dbt runs so the pipeline stays sequential
+@task(retries=3, retry_delay_seconds=60)
+def fetch_forecasts():
+    logger = get_run_logger()
+    logger.info("Fetching 7-day forecasts from NOAA...")
+
+    # Run the forecast fetcher as a subprocess
+    result = subprocess.run(
+        [PYTHON, "-m", "ingestion.noaa_forecast"],
+        cwd=PROJECT_ROOT,
+        capture_output=True,
+        text=True
+    )
+
+    # If the fetcher exits with a non-zero code, raise an exception
+    # This triggers Prefect's retry logic
+    if result.returncode != 0:
+        raise Exception(f"Forecast fetcher failed: {result.stderr}")
+
+    # Log the forecast fetcher output to Prefect Cloud for visibility
+    logger.info(result.stdout)
+    return "forecasts fetched"
+
+
 # ---Flow Definition---
-# The flow orchestrates both tasks in sequence:
+# The flow orchestrates all tasks in sequence:
 # 1. Fetch conditions from NOAA and save to DuckDB
 # 2. Run dbt transforms to rebuild feature tables
-# wait_for=[conditions] ensures dbt only runs after the fetcher succeeds
+# 3. Fetch 7-day forecasts from NOAA and save to DuckDB
+# wait_for= ensures each task only runs after the previous one succeeds
 @flow(name="snowboard-pipeline")
 def snowboard_pipeline():
     conditions = fetch_conditions()
     dbt = run_dbt(wait_for=[conditions])
+    forecasts = fetch_forecasts(wait_for=[dbt])
     return "pipeline complete"
 
 

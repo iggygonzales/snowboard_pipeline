@@ -17,6 +17,37 @@ from scoring.scorer import calculate_ride_score, grade
 from datetime import datetime
 import pytz
 
+def parse_wind_speed(wind_str):
+    """Parse NOAA wind speed string like '14 to 26 mph' or '5 mph' into a number."""
+    if not wind_str:
+        return 0
+    import re
+    numbers = re.findall(r'\d+', str(wind_str))
+    if not numbers:
+        return 0
+    # If range like "14 to 26", take the average
+    nums = [int(n) for n in numbers]
+    return sum(nums) / len(nums)
+
+def score_forecast_period(row):
+    """Score a forecast period using the ride quality model."""
+    wind_mph = parse_wind_speed(row["wind_speed"])
+    # Map short forecast text to conditions string the scorer understands
+    short = str(row["short_forecast"]).lower()
+    if "snow" in short:
+        conditions = "Snow"
+    elif "rain" in short or "showers" in short or "drizzle" in short:
+        conditions = "Rain"
+    elif "fog" in short or "mist" in short:
+        conditions = "Fog"
+    elif "sunny" in short or "clear" in short:
+        conditions = "Clear"
+    elif "cloud" in short or "overcast" in short:
+        conditions = "Cloudy"
+    else:
+        conditions = "Partly Cloudy"
+    return calculate_ride_score(row["temp_f"], wind_mph, conditions, 0)
+
 est = pytz.timezone('US/Eastern')
 now = datetime.now(est).strftime('%B %d, %Y %I:%M %p EST')
 st.caption(f"Last refreshed: {now}")
@@ -30,7 +61,7 @@ st.set_page_config(
 st.title("🏂 New England Snow Conditions")
 st.caption("Live ride quality scores powered by NOAA weather data")
 
-tab1, tab2 = st.tabs(["Dashboard", "Ask the Snow Bot"])
+tab1, tab2, tab3 = st.tabs(["Dashboard", "7-Day Forecast", "Ask the Snow Bot"])
 
 # --- Load latest conditions per resort ---
 @st.cache_data(ttl=300)
@@ -53,7 +84,28 @@ def load_conditions():
     con.close()
     est = pytz.timezone('US/Eastern')
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.tz_localize('UTC').dt.tz_convert(est).dt.strftime('%Y-%m-%d %I:%M %p EST')
+    return df
 
+# --- Load 7-day forecast per resort ---
+@st.cache_data(ttl=3600)
+def load_forecasts():
+    con = get_connection()
+    df = con.execute("""
+        SELECT
+            resort,
+            state,
+            period_name,
+            start_time,
+            is_daytime,
+            temp_f,
+            wind_speed,
+            wind_direction,
+            short_forecast,
+            detailed_forecast
+        FROM forecasts
+        ORDER BY resort, start_time ASC
+    """).df()
+    con.close()
     return df
 
 df = load_conditions()
@@ -158,8 +210,80 @@ with tab1:
     st.plotly_chart(fig, width='stretch')
     st.caption("Data refreshes every 5 minutes. Run the fetcher to update conditions.")
 
-# --- Tab 2: Snow Bot ---
+# --- Tab 2: 7-Day Forecast ---
 with tab2:
+    st.subheader("7-Day Forecast")
+    st.caption("Forecast data from NOAA — updated hourly")
+
+    forecast_df = load_forecasts()
+
+    if forecast_df.empty:
+        st.warning("No forecast data yet — run the forecast fetcher first.")
+    else:
+        # Resort selector
+        resorts = sorted(forecast_df["resort"].unique())
+        selected_resort = st.selectbox("Select a resort", resorts)
+
+        resort_forecast = forecast_df[forecast_df["resort"] == selected_resort].copy()
+
+        # Show forecast cards — daytime periods only for the overview
+        daytime = resort_forecast[resort_forecast["is_daytime"] == True].reset_index(drop=True)
+        nighttime = resort_forecast[resort_forecast["is_daytime"] == False].reset_index(drop=True)
+
+        st.markdown(f"### {selected_resort} — Next 7 Days")
+
+        # Display as a grid of day cards
+        cols = st.columns(min(len(daytime), 4))
+        for i, (_, row) in enumerate(daytime.iterrows()):
+            col = cols[i % 4]
+            with col:
+                with st.container(border=True):
+                    st.markdown(f"**{row['period_name']}**")
+                    st.metric("High", f"{int(row['temp_f'])}°F")
+                    st.caption(f"💨 {row['wind_speed']} {row['wind_direction']}")
+                    st.caption(f"🌤 {row['short_forecast']}")
+                    forecast_score = score_forecast_period(row)
+                    forecast_rating = grade(forecast_score)
+                    st.markdown(f"**{forecast_score}/100** {forecast_rating}")
+
+        st.divider()
+
+        # Temperature forecast chart
+        st.markdown("#### Temperature Forecast")
+        fig_temp = px.line(
+            resort_forecast,
+            x="period_name",
+            y="temp_f",
+            color="is_daytime",
+            markers=True,
+            labels={
+                "period_name": "Period",
+                "temp_f": "Temperature (°F)",
+                "is_daytime": "Daytime"
+            },
+            color_discrete_map={True: "#f4a261", False: "#457b9d"}
+        )
+        fig_temp.add_hline(
+            y=32,
+            line_dash="dash",
+            line_color="cyan",
+            annotation_text="Freezing (32°F)"
+        )
+        fig_temp.update_layout(height=350, hovermode="x unified")
+        st.plotly_chart(fig_temp, width='stretch')
+
+        st.divider()
+
+        # Detailed forecast expander
+        st.markdown("#### Detailed Forecast")
+        for _, row in resort_forecast.iterrows():
+            icon = "☀️" if row["is_daytime"] else "🌙"
+            with st.expander(f"{icon} {row['period_name']} — {int(row['temp_f'])}°F — {row['short_forecast']}"):
+                st.write(row["detailed_forecast"])
+                st.caption(f"Wind: {row['wind_speed']} {row['wind_direction']}")
+
+# --- Tab 3: Snow Bot ---
+with tab3:
     st.subheader("Ask the Snow Bot")
     st.caption("Ask anything about current conditions across New England resorts")
 
