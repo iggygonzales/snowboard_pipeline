@@ -1,0 +1,30 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd ~/snowboard_pipeline
+            git pull origin main
+            docker stop snowboard-pipeline
+            docker rm snowboard-pipeline
+            docker build -t snowboard-pipeline .
+            docker run -d \
+              --name snowboard-pipeline \
+              --env-file .env \
+              -p 8501:8501 \
+              --restart unless-stopped \
+              snowboard-pipeline
