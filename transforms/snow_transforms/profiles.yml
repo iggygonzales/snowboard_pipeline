@@ -1,0 +1,6 @@
+snow_transforms:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: /app/data/snowboard.duckdb

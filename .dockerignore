@@ -1,8 +1,6 @@
 venv/
-transforms/
 .env
 __pycache__/
 *.pyc
 data/
 logs/
-.git/
