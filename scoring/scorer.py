@@ -1,10 +1,19 @@
 import sys
 import os
+from datetime import datetime
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from storage.db import get_connection
 
+
 def calculate_ride_score(temp_f, wind_speed_mph, conditions, snowfall_in, rolling_72hr_snowfall=0, freeze_thaw_flag=0):
+    # --- Off-season check ---
+    # Ski season: November through April
+    month = datetime.now().month
+    if month not in (11, 12, 1, 2, 3, 4):
+        return 0
+
     score = 50  # baseline
 
     # --- Temperature score (ideal: 20-32°F) ---
@@ -53,7 +62,7 @@ def calculate_ride_score(temp_f, wind_speed_mph, conditions, snowfall_in, rollin
 
     # --- Rolling 72hr snowfall bonus (fresh snow!) ---
     if rolling_72hr_snowfall and rolling_72hr_snowfall > 0:
-        snow_bonus = min(rolling_72hr_snowfall * 5, 20)  # cap at 20pts
+        snow_bonus = min(rolling_72hr_snowfall * 5, 20)
     elif snowfall_in and snowfall_in > 0:
         snow_bonus = min(snowfall_in * 10, 10)
     else:
@@ -67,7 +76,9 @@ def calculate_ride_score(temp_f, wind_speed_mph, conditions, snowfall_in, rollin
 
 
 def grade(score):
-    if score >= 80:
+    if score == 0:
+        return "⚪ Offseason"
+    elif score >= 80:
         return "🟢 Excellent"
     elif score >= 65:
         return "🔵 Good"
@@ -82,7 +93,6 @@ def grade(score):
 def run():
     con = get_connection()
 
-    # read from features table instead of raw conditions
     results = con.execute("""
         SELECT DISTINCT ON (resort)
             resort,
@@ -109,8 +119,8 @@ def run():
         score = calculate_ride_score(temp_f, wind_mph, conds, snowfall, rolling_snow, freeze_thaw)
         rating = grade(score)
         ice = "⚠️ Yes" if freeze_thaw else "No"
-        temp_str = f"{round(temp_f, 1)}°F"
-        wind_str = f"{round(wind_mph, 1)}mph"
+        temp_str = f"{round(temp_f, 1)}°F" if temp_f else "N/A"
+        wind_str = f"{round(wind_mph, 1)}mph" if wind_mph else "N/A"
         snow_str = f"{round(rolling_snow or 0, 2)}in"
         print(f"{resort + ', ' + state:<20} {temp_str:>8} {wind_str:>8} {snow_str:>10} {ice:>9} {score:>7} {rating}")
 
