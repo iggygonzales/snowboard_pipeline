@@ -1,5 +1,8 @@
+.venv/
 venv/
+.vscode/
 .env
 __pycache__/
 *.pyc
 data/
+logs/
